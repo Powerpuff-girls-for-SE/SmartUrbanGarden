@@ -1,0 +1,83 @@
+
+version: '3.6'
+
+services:
+  telegraf:
+    image: telegraf
+    container_name: garden_telegraf
+    restart: always
+    volumes:
+    - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb
+      - mosquitto
+    links:
+      - influxdb
+    ports:
+      - 8125:8125    
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.10
+
+  influxdb:
+    image: influxdb:2.4-alpine
+    container_name: garden_influxdb
+    restart: always
+    environment:
+
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_BUCKET=urban_garden
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin123
+      - DOCKER_INFLUXDB_INIT_ORG=urban_org
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=urban_token
+
+    ports:
+      - 8086:8086
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.11
+
+  grafana:
+    image: grafana/grafana
+    container_name: garden_grafana
+    restart: always
+    depends_on:
+      - influxdb
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=
+    links:
+      - influxdb
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana:/var/lib/grafana
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.12
+  
+  mosquitto:
+    container_name: garden_mqtt
+    restart: always
+    image: eclipse-mosquitto
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - 1883:1883
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.13
+
+volumes:
+  influxdb_data: 
+
+networks:
+  garden-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.100.0.0/16
