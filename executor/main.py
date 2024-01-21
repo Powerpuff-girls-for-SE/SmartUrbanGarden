@@ -1,2 +1,2 @@
-while True:
+for i in range(0,10):
     print("Hello garden executor")
