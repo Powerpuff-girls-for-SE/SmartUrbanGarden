@@ -15,8 +15,8 @@ def main():
     config.read('config.ini')
 
     # MQTT client creation
-    mqtt_client = mqtt.Client(client_id="managed_resources")
-    mqtt_client.connect(config['mqtt']['broker'], int(config['mqtt']['port']))
+    mqtt_client = mqtt.Client(client_id="managed_resources", reconnect_on_failure=True)
+    mqtt_client.connect(config['mqtt']['broker'])
 
     # GardenArea creation
     areas = []

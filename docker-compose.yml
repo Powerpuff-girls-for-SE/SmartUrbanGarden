@@ -68,6 +68,7 @@ services:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
     ports:
       - 1883:1883
+      - 9001:9001
     networks:
       garden-net:
         ipv4_address: 172.100.0.13
@@ -116,6 +117,17 @@ services:
     networks:
       garden-net:
         ipv4_address: 172.100.0.17
+
+  managed_resources:
+    container_name: garden_resources
+    build: 
+      context: ./managed_resources/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./managed_resources:/usr/src/app/
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.18
 
 
 

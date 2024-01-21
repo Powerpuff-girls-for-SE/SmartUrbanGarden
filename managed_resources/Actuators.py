@@ -1,20 +1,24 @@
 from threading import Thread
-from tenacity import retry
 import paho.mqtt.client as mqtt
+import configparser
 
 class Actuator:
     def __init__(self, gardenArea, actuatorType):
         self.gardenArea = gardenArea
-        self.client = mqtt.Client(client_id=f"{actuatorType}_{gardenArea.areaName}")
+        self.client = mqtt.Client(client_id=f"{actuatorType}_{gardenArea.areaName}", reconnect_on_failure=True)
         self.subscription_topic = actuatorType
         thread = Thread(target=self.initialize_mqtt)
         thread.start()
 
     def initialize_mqtt(self):
-        self.client.connect("173.20.0.100", 1883)
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+
+        self.client = mqtt.Client(client_id="managed_resources")
+        self.client.connect(config['mqtt']['broker'])
+
         self.client.on_connect = self.on_connect
-        self.client.on_message = self.on_message
-        self.client.in_disconnect = self.on_disconnect
+        # self.client.on_disconnect = self.on_disconnect
         self.client.loop_forever()
 
     def on_connect(self, client, userdata, flags, rc):
@@ -34,6 +38,7 @@ class SmartBulb(Actuator):
             "low": 200,
             "high": 1000
         }
+        self.client.on_message = self.on_message
 
     def on_message(self, client, userdata, msg):
         payload = msg.payload.decode("utf-8")
@@ -53,6 +58,7 @@ class Thermostat(Actuator):
     def __init__(self, gardenArea):
         super().__init__(gardenArea, "thermostat")
         self.thermostat_state = "off"
+        self.client.on_message = self.on_message
 
     def on_message(self, client, userdata, msg):
         payload = msg.payload.decode("utf-8")
@@ -80,6 +86,7 @@ class WaterPump(Actuator):
     def __init__(self, gardenArea):
         super().__init__(gardenArea, "water_pump")
         self.water_pump_state = "off"
+        self.client.on_message = self.on_message
 
     def on_message(self, client, userdata, msg):
         payload = msg.payload.decode("utf-8")
@@ -113,6 +120,7 @@ class Humidifier(Actuator):
             "low": 20,
             "high": 90
         }
+        self.client.on_message = self.on_message
 
     def on_message(self, client, userdata, msg):
         payload = msg.payload.decode("utf-8")

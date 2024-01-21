@@ -1,6 +1,6 @@
 FROM python:3.11 as build
 WORKDIR /app
 COPY . .
-# RUN pip3 install influxdb-client
-# RUN pip install paho-mqtt
+RUN pip3 install influxdb-client
+RUN pip install paho-mqtt
 CMD ["python3", "main.py"]

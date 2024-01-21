@@ -1,6 +1,4 @@
-import random
 import pandas as pd
-from random import randint
 from paho.mqtt.client import Client
 
 from Actuators import SmartBulb, Thermostat, WaterPump, Humidifier
