@@ -11,43 +11,79 @@ app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 app.secret_key = config.get('flask', 'SECRET_KEY')
 
+
 @app.route("/planner/check_measurements", methods=["POST"])
 def check_measurements():
     measurements = request.json
+    url = 'http://173.20.0.106:5006'
 
-    for area, values in measurements.items():
-        for measurement, value in values.items():
-            action = check_action(measurement, value)
-            print(f"In area '{area}', for measurement '{measurement}', action: {action}")
+    try:
+        for area in measurements:
+            for measurement in measurements[area]:
+                print(f'\nArea: {area}, Measurement: {measurement}, Condition: {measurements[area][measurement]}')
+                new_url = f'{url}/{area}/{measurement}'
+
+                if measurements[area][measurement] == "Temperature low":
+                    x = requests.get(f'{new_url}/on')
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
+
+                elif measurements[area][measurement] == "Temperature high":
+                    x = requests.get(f'{new_url}/on')
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
+
+                elif measurements[area][measurement] == "Temperature optimal":
+                    x = requests.get(f'{new_url}/off')
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
+
+                elif measurements[area][measurement] == "Humidity low":
+                    alarm_url = f'{url}/{area}/high'
+                    x = requests.get(alarm_url)
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
+
+                elif measurements[area][measurement] == "Humidity high":
+                    alarm_url = f'{url}/{area}/low'
+                    x = requests.get(alarm_url)
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
+
+                elif measurements[area][measurement] == "Humidity optimal":
+                    alarm_url = f'{url}/{area}/off'
+                    x = requests.get(alarm_url)
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
+
+                elif measurements[area][measurement] == "Light low":
+                    alarm_url = f'{url}/{area}/high'
+                    x = requests.get(alarm_url)
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
+
+                elif measurements[area][measurement] == "Light high":
+                    alarm_url = f'{url}/{area}/low'
+                    x = requests.get(alarm_url)
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
+
+                elif measurements[area][measurement] == "Light optimal":
+                    alarm_url = f'{url}/{area}/off'
+                    x = requests.get(alarm_url)
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
+
+                elif measurements[area][measurement] == "Moisture low":
+                    x = requests.get(f'{new_url}/on')
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
+
+                elif measurements[area][measurement] == "Moisture high":
+                    x = requests.get(f'{new_url}/on')
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
+
+                elif measurements[area][measurement] == "Moisture optimal":
+                    x = requests.get(f'{new_url}/off')
+                    print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
+
+    except Exception as exc:
+        print(exc)
 
     resp = jsonify(success=True, error="none")
     resp.status_code = 200
     return resp
-
-def check_action(measurement, value):
-    if measurement == 'light':
-        if value < 100:
-            return 'Increase light'
-        elif value > 800:
-            return 'Decrease light'
-    elif measurement == 'temperature':
-        if value < 18:
-            return 'Increase temperature'
-        elif value > 25:
-            return 'Decrease temperature'
-    elif measurement == 'soil_moisture':
-        if value < 30:
-            return 'Turn water pump on'
-        elif value > 70:
-            return 'Turn water pump off'
-    elif measurement == 'humidity':
-        if value < 40:
-            return 'Increase humidity'
-        elif value > 80:
-            return 'Decrease humidity'
     
-    # Default action if no specific condition is met
-    return 'No action needed'
 
 if __name__ == "__main__":
     app.run(debug=True, host='173.20.0.105', port=5007)
