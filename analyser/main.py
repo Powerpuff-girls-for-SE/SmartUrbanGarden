@@ -1,10 +1,6 @@
-import numpy
 import requests
 import traceback
 import configparser
-from time import sleep
-from tenacity import retry
-from datetime import datetime
 
 import db_access
 from get_optimal_values import get_optimal_value
