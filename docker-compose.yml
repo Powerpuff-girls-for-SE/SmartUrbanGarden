@@ -71,6 +71,53 @@ services:
     networks:
       garden-net:
         ipv4_address: 172.100.0.13
+  
+  mape_monitor:
+    container_name: garden_monitor
+    restart: always
+    build: 
+      context: ./monitor/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./monitor:/usr/src/app/
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.14
+  
+  mape_analyser:
+    container_name: garden_analyser
+    build: 
+      context: ./analyser/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./analyser:/usr/src/app/
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.15
+  
+  mape_planner:
+    container_name: garden_planner
+    build: 
+      context: ./planner/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./planner:/usr/src/app/
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.16
+  
+  mape_executor:
+    container_name: garden_executor
+    build: 
+      context: ./executor/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./executor:/usr/src/app/
+    networks:
+      garden-net:
+        ipv4_address: 172.100.0.17
+
+
 
 volumes:
   influxdb_data: 
