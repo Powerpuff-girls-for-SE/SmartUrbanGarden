@@ -74,39 +74,48 @@ services:
   
   mape_monitor:
     container_name: garden_monitor
-    build: ./monitor
+    restart: always
+    build: 
+      context: ./monitor/
+      dockerfile: ./Dockerfile
     volumes:
-      - ./monitor:/app
+      - ./monitor:/usr/src/app/
     networks:
       garden-net:
         ipv4_address: 172.100.0.14
   
   mape_analyser:
     container_name: garden_analyser
-    build: ./analyser
+    build: 
+      context: ./analyser/
+      dockerfile: ./Dockerfile
     volumes:
-      - ./analyser:/app
+      - ./analyser:/usr/src/app/
     networks:
       garden-net:
         ipv4_address: 172.100.0.15
   
   mape_planner:
     container_name: garden_planner
-    build: ./planner
+    build: 
+      context: ./planner/
+      dockerfile: ./Dockerfile
     volumes:
-      - ./analyser:/app
+      - ./planner:/usr/src/app/
     networks:
       garden-net:
         ipv4_address: 172.100.0.16
   
   mape_executor:
     container_name: garden_executor
-    build: ./executor
+    build: 
+      context: ./executor/
+      dockerfile: ./Dockerfile
     volumes:
-      - ./executor:/app
+      - ./executor:/usr/src/app/
     networks:
       garden-net:
-        ipv4_address: 172.100.0.16
+        ipv4_address: 172.100.0.17
 
 
 
