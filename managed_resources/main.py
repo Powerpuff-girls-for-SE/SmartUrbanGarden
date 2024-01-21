@@ -24,7 +24,7 @@ def main():
 
     while True:
         for GardenArea in areas:
-            GardenArea.simulate(client=client)
+            GardenArea.publish_sensor_data(client=client)
 
         time.sleep(1)
 
