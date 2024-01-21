@@ -2,7 +2,7 @@ import time
 import paho.mqtt.client as mqtt
 from paho.mqtt.client import Client
 import configparser
-from GardenArea import GardenArea
+from Garden import GardenArea
 
 def publish_area_optimal_values(client, area_name, optimal_light, optimal_temperature, optimal_humidity, optimal_moisture):
     client.publish(f"garden/{area_name}/optimal_light", optimal_light)

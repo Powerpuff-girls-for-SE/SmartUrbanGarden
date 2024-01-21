@@ -23,13 +23,9 @@ def dbWrite(topic : str, value: int):
         #data formatting and storing
         topic = topic.split("/")
         measurement = topic[0]
-        if measurement == 'garden':
-            tag = topic[1]
-            field = topic[2]
-            p = influxdb_client.Point(measurement).tag("garden_area",tag).field(field, float(value))
-        else:
-            field = topic[1]
-            p = influxdb_client.Point(measurement).field(field, float(value))
+        tag = topic[1]
+        field = topic[2]
+        p = influxdb_client.Point(measurement).tag("garden_area",tag).field(field, float(value))
         write_api.write(bucket=bucket_name, org=org, record=p)
 
 def on_connect(client, userdata, flags, rc):
@@ -47,7 +43,7 @@ def on_message(client, userdata, msg):
 
 def main():
     mqtt_client = mqtt.Client(client_id="monitor", reconnect_on_failure=True)
-    mqtt_client.connect(config['mqtt']['broker'], int(config['mqtt']['port']))
+    mqtt_client.connect(config['mqtt']['broker'])
     mqtt_client.on_connect = on_connect
     mqtt_client.on_message = on_message
     mqtt_client.loop_forever()
