@@ -73,13 +73,14 @@ def check_moisture_value(garden_area, moisture):
 def check_sensor_values(sensor_data):
     readings = {}
     for garden_area, values in sensor_data.items():
+        readings[garden_area] = {}
         for measurement, value in values.items():
             if measurement == 'light':
-                readings[garden_area] = check_light_value(garden_area, value)
+                readings[garden_area]["light"] = check_light_value(garden_area, value)
             elif measurement == 'temperature':
-                readings[garden_area] = check_temperature_value(garden_area, value)
+                readings[garden_area]["temperature"] = check_temperature_value(garden_area, value)
             elif measurement == 'moisture':
-                readings[garden_area] = check_moisture_value(garden_area, value)
+                readings[garden_area]["moisture"] = check_moisture_value(garden_area, value)
             elif measurement == 'humidity':
-                readings[garden_area] = check_humidity_value(garden_area, value)
+                readings[garden_area]["humidity"] = check_humidity_value(garden_area, value)
     return readings
