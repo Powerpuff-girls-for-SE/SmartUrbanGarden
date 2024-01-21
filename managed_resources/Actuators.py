@@ -32,7 +32,6 @@ class SmartBulb(Actuator):
         self.light_levels_mappings = {
             "off": 0,
             "low": 200,
-            "medium": 500,
             "high": 1000
         }
 
@@ -112,7 +111,6 @@ class Humidifier(Actuator):
         self.light_levels_mappings = {
             "off": 0,
             "low": 20,
-            "medium": 50,
             "high": 90
         }
 
