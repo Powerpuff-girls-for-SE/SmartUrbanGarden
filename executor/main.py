@@ -1,2 +1,47 @@
-for i in range(0,10):
-    print("Hello garden executor")
+import requests
+import influxdb_client
+from flask import Flask
+from flask import jsonify
+from tenacity import retry
+import paho.mqtt.client as mqtt
+from influxdb_client.client.write_api import SYNCHRONOUS
+
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+app = Flask(__name__)
+
+class MQTTClient:
+    @retry()
+    def __init__(self,client_id):
+        self.client = mqtt.Client(client_id=client_id, reconnect_on_failure=True)
+        self.client.on_publish = lambda client, userdata, mid: print("PUBLISH: ", mid)
+        self.client.connect(config["mqtt"]["broker"])
+
+    def on_connect(client, userdata, flags, rc):
+        print('Executor connected to MQTT')
+
+    def publish(self, topic, msg):
+        self.client.publish(topic, msg)
+
+client = MQTTClient(client_id = 'Executor')
+
+@app.route("/<garden_area>/<sensor>/<action>")
+def apply_tactic(garden_area, sensor, action):
+    if sensor == 'temperature':
+        client.publish(f'thermostat/{garden_area}/{action}', '')
+    elif sensor == 'humidity':
+        client.publish(f'humidifier/{garden_area}/{action}', '')
+    elif sensor == 'light':
+        client.publish(f'smartbulb/{garden_area}/{action}', '')
+    else:
+        client.publish(f'water_pump/{garden_area}/{action}', '')
+
+    resp = jsonify(success=True, error="none")
+    resp.status_code = 200
+    return resp
+
+if __name__ == "__main__":
+    app.run(debug=True, host=config["config"]["SERVER_IP"], port=config["config"]["PORT"])
