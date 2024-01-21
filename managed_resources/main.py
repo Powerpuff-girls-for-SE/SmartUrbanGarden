@@ -1,13 +1,16 @@
 import time
 import paho.mqtt.client as mqtt
 import tenacity
-from GardenArea import GardenArea
+import configparser
+from managed_resources.GardenArea import GardenArea
 
 def main():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
     # MQTT client creation
-    client = mqtt.Client("ManagedResource", reconnect_on_failure=True)
-    #client.connect("localhost")
-    client.connect("173.20.0.100")
+    mqtt_client = mqtt.Client(client_id="managed_resources")
+    mqtt_client.connect(config['mqtt']['broker'], int(config['mqtt']['port']))
 
     # GardenArea creation
     areas = []
@@ -24,7 +27,7 @@ def main():
 
     while True:
         for GardenArea in areas:
-            GardenArea.publish_sensor_data(client=client)
+            GardenArea.publish_sensor_data(client=mqtt_client)
 
         time.sleep(1)
 
