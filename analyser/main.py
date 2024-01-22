@@ -26,7 +26,7 @@ def main():
             sensor_data[garden_area] = garden_area_values
 
         readings = check_sensor_values(sensor_data)
-        url = 'http://173.20.0.105:5007/planner/check_measurements'
+        url = 'http://172.100.0.16:5007/planner/check_measurements'
         requests.post(url, json=readings)
 
     except Exception as exc:

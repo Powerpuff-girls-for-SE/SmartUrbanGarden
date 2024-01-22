@@ -6,7 +6,6 @@ import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-
 class MQTTSubscriber:
     def __init__(self, broker_address, topic):
         self.broker_address = broker_address
