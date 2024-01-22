@@ -31,9 +31,6 @@ def write_to_influxdb(topic : str, value: int):
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
     client.subscribe("garden/#")
-    # client.subscribe("garden/#/temperature")
-    # client.subscribe("garden/#/humidity")
-    # client.subscribe("garden/#/moisture")
     
 
 def on_message(client, userdata, msg):
@@ -43,6 +40,11 @@ def on_message(client, userdata, msg):
     write_to_influxdb(str(msg.topic), payload)
 
 def main():
+    mqtt_client = mqtt.Client(client_id="monitor", reconnect_on_failure=True)
+    mqtt_client.connect(config['mqtt']['broker'], int(config['mqtt']['port']))
+    mqtt_client.on_connect = on_connect
+    mqtt_client.on_message = on_message
+    mqtt_client.loop_forever()
     try:
         mqtt_client = mqtt.Client(client_id="Monitor", reconnect_on_failure=True)
         mqtt_client.connect("172.100.0.13", 1883)
