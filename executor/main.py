@@ -12,6 +12,8 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
+app.secret_key = config.get('flask', 'SECRET_KEY')
 
 class MQTTClient:
     @retry()
@@ -26,16 +28,16 @@ class MQTTClient:
     def publish(self, topic, msg):
         self.client.publish(topic, msg)
 
-client = MQTTClient(client_id = 'Executor')
+client = MQTTClient(client_id='Executor')
 
-@app.route("/<garden_area>/<sensor>/<action>")
-def apply_tactic(garden_area, sensor, action):
+@app.route("/garden_area/sensor/action", methods=["GET"])
+def run_actuator(garden_area, sensor, action):
     if sensor == 'temperature':
         client.publish(f'thermostat/{garden_area}/{action}', '')
     elif sensor == 'humidity':
         client.publish(f'humidifier/{garden_area}/{action}', '')
     elif sensor == 'light':
-        client.publish(f'smartbulb/{garden_area}/{action}', '')
+        client.publish(f'smartBulb/{garden_area}/{action}', '')
     else:
         client.publish(f'water_pump/{garden_area}/{action}', '')
 
@@ -44,4 +46,4 @@ def apply_tactic(garden_area, sensor, action):
     return resp
 
 if __name__ == "__main__":
-    app.run(debug=True, host=config["config"]["SERVER_IP"], port=config["config"]["PORT"])
+    app.run(debug=True, host="172.100.0.17", port=5006)

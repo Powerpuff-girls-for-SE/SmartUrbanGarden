@@ -6,9 +6,9 @@ from Garden import GardenArea
 
 def publish_area_optimal_values(client, area_name, optimal_light, optimal_temperature, optimal_humidity, optimal_moisture):
     client.publish(f"garden/{area_name}/optimal_light", optimal_light)
-    client.publish(f"garden/{area_name}/temperature", optimal_temperature)
-    client.publish(f"garden/{area_name}/humidity", optimal_humidity)
-    client.publish(f"garden/{area_name}/moisture", optimal_moisture)
+    client.publish(f"garden/{area_name}/optimal_temperature", optimal_temperature)
+    client.publish(f"garden/{area_name}/optimal_humidity", optimal_humidity)
+    client.publish(f"garden/{area_name}/optimal_moisture", optimal_moisture)
 
 def main():
     config = configparser.ConfigParser()
@@ -16,7 +16,7 @@ def main():
 
     # MQTT client creation
     mqtt_client = mqtt.Client(client_id="managed_resources", reconnect_on_failure=True)
-    mqtt_client.connect(config['mqtt']['broker'])
+    mqtt_client.connect("172.100.0.13", port=1883)
 
     # GardenArea creation
     areas = []

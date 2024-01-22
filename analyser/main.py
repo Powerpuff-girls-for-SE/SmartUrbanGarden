@@ -1,6 +1,8 @@
+import numpy
 import requests
 import traceback
 import configparser
+from time import sleep
 
 import db_access
 from get_optimal_values import get_optimal_value
@@ -70,13 +72,20 @@ def check_sensor_values(sensor_data):
     readings = {}
     for garden_area, values in sensor_data.items():
         readings[garden_area] = {}
-        for measurement, value in values.items():
-            if measurement == 'light':
-                readings[garden_area]["light"] = check_light_value(garden_area, value)
-            elif measurement == 'temperature':
-                readings[garden_area]["temperature"] = check_temperature_value(garden_area, value)
-            elif measurement == 'moisture':
-                readings[garden_area]["moisture"] = check_moisture_value(garden_area, value)
-            elif measurement == 'humidity':
-                readings[garden_area]["humidity"] = check_humidity_value(garden_area, value)
+        for sensor, value in values.items():
+            averaged_value = numpy.mean(list(sensor_data[garden_area][sensor].values()))
+            if sensor == 'light':
+                readings[garden_area]["light"] = check_light_value(garden_area, averaged_value)
+            elif sensor == 'temperature':
+                readings[garden_area]["temperature"] = check_temperature_value(garden_area, averaged_value)
+            elif sensor == 'moisture':
+                readings[garden_area]["moisture"] = check_moisture_value(garden_area, averaged_value)
+            elif sensor == 'humidity':
+                readings[garden_area]["humidity"] = check_humidity_value(garden_area, averaged_value)
+
     return readings
+
+if __name__ == "__main__":
+    while True:
+        main()
+        sleep(10)
