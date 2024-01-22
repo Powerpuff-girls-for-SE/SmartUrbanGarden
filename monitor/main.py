@@ -1,4 +1,4 @@
-import paho.mqtt.client as mqtt
+from paho.mqtt import client as mqtt_client
 import influxdb_client
 import configparser
 import traceback
@@ -25,34 +25,40 @@ def write_to_influxdb(topic : str, value: int):
     topic_header = topic[0]
     garden_area = topic[1]
     sensor = topic[2]
-    p = influxdb_client.Point(topic_header).tag("garden_area", garden_area).field(sensor, float(value))
+    print(topic, topic_header, garden_area, sensor)
+    p = influxdb_client.Point(topic_header).tag("garden_area", garden_area).field(sensor, int(value))
     write_api.write(bucket=bucket_name, org=org, record=p)
 
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
-    client.subscribe("garden/#")
-    
+def connect_mqtt(client_id, broker, port):
+    def on_connect(client, userdata, flags, rc):
+        if rc == 0:
+            print("Connected to MQTT Broker!")
+        else:
+            print("Failed to connect, return code %d\n", rc)
 
-def on_message(client, userdata, msg):
-    payload = msg.payload.decode("utf-8")
-    print("Message written to influxdb")
-    print(str(msg.topic + " -> " + payload))
-    write_to_influxdb(str(msg.topic), payload)
+    client = mqtt_client.Client(client_id)
+    # client.username_pw_set(username, password)
+    client.on_connect = on_connect
+    client.connect(broker, port)
+    return client
+
+
+def subscribe(client, topic):
+    def on_message(client, userdata, msg):
+        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+
+    client.subscribe(topic)
+    client.on_message = on_message
 
 def main():
-    mqtt_client = mqtt.Client(client_id="monitor", reconnect_on_failure=True)
-    mqtt_client.connect(config['mqtt']['broker'], int(config['mqtt']['port']))
-    mqtt_client.on_connect = on_connect
-    mqtt_client.on_message = on_message
-    mqtt_client.loop_forever()
-    try:
-        mqtt_client = mqtt.Client(client_id="Monitor", reconnect_on_failure=True)
-        mqtt_client.connect("172.100.0.13", 1883)
-        mqtt_client.on_connect = on_connect
-        mqtt_client.on_message = on_message
-        mqtt_client.loop_forever()
-    except:
-        print(traceback.format_exc())
+    broker = '172.100.0.13'
+    port = 1883
+    topic = "garden/#"
+    client_id = "monitor"
+    # Generate a Client ID with the subscribe prefix.
+    client = connect_mqtt(client_id, broker, port)
+    subscribe(client, topic)
+    client.loop_forever()
          
 
 if __name__ == '__main__':

@@ -17,20 +17,12 @@ def connect_mqtt(client_id, broker, port):
 
 
 def publish(client, topic, msg):
-    msg_count = 1
-    while True:
-        time.sleep(1)
-        msg = f"messages: {msg_count}"
-        result = client.publish(topic, msg)
-        # result: [0, 1]
-        status = result[0]
-        if status == 0:
-            print(f"Send `{msg}` to topic `{topic}`")
-        else:
-            print(f"Failed to send message to topic {topic}")
-        msg_count += 1
-        if msg_count > 5:
-            break
+    result = client.publish(topic, msg)
+    status = result[0]
+    if status == 0:
+        print(f"Send `{msg}` to topic `{topic}`")
+    else:
+        print(f"Failed to send message to topic {topic}")
 
 def publish_area_optimal_values(client, area_name, optimal_light, optimal_temperature, optimal_humidity, optimal_moisture):
     publish(client, f"garden/{area_name}/optimal_light", optimal_light)
@@ -66,7 +58,7 @@ def main():
 
     while True:
         for area in areas:
-            area.publish_sensor_data(client=mqtt_client)
+            area.publish_sensor_data(client=client)
 
         time.sleep(1)
 
