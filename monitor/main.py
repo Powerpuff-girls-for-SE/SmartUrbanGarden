@@ -8,7 +8,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 
-def write_to_influxdb(topic : str, value: int):
+def write_to_influxdb(topic : str, value: float):
     # influxdb
     org = config['influxdb']['ORG']
     bucket_name = config['influxdb']['BUCKET_NAME']
@@ -25,8 +25,7 @@ def write_to_influxdb(topic : str, value: int):
     topic_header = topic[0]
     garden_area = topic[1]
     sensor = topic[2]
-    print(topic, topic_header, garden_area, sensor)
-    p = influxdb_client.Point(topic_header).tag("garden_area", garden_area).field(sensor, int(value))
+    p = influxdb_client.Point(topic_header).tag("garden_area", garden_area).field(sensor, float(value))
     write_api.write(bucket=bucket_name, org=org, record=p)
 
 def connect_mqtt(client_id, broker, port):
@@ -46,6 +45,7 @@ def connect_mqtt(client_id, broker, port):
 def subscribe(client, topic):
     def on_message(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        write_to_influxdb(str(msg.topic), msg.payload)
 
     client.subscribe(topic)
     client.on_message = on_message
