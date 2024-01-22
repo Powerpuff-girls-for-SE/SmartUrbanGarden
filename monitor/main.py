@@ -8,7 +8,11 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 
+<<<<<<< HEAD
 def write_to_influxdb(topic : str, value: int):
+=======
+def dbWrite(topic : str, value: int):
+>>>>>>> d891969 (minor changes)
     # influxdb
     org = config['influxdb']['ORG']
     bucket_name = config['influxdb']['BUCKET_NAME']
@@ -22,10 +26,17 @@ def write_to_influxdb(topic : str, value: int):
 
     #data formatting and storing
     topic = topic.split("/")
+<<<<<<< HEAD
     topic_header = topic[0]
     garden_area = topic[1]
     sensor = topic[2]
     p = influxdb_client.Point(topic_header).tag("garden_area", garden_area).field(sensor, float(value))
+=======
+    measurement = topic[0]
+    tag = topic[1]
+    field = topic[2]
+    p = influxdb_client.Point(measurement).tag("garden_area",tag).field(field, float(value))
+>>>>>>> d891969 (minor changes)
     write_api.write(bucket=bucket_name, org=org, record=p)
 
 def on_connect(client, userdata, flags, rc):
@@ -43,6 +54,7 @@ def on_message(client, userdata, msg):
     write_to_influxdb(str(msg.topic), payload)
 
 def main():
+<<<<<<< HEAD
     try:
         mqtt_client = mqtt.Client(client_id="Monitor", reconnect_on_failure=True)
         mqtt_client.connect("172.100.0.13", 1883)
@@ -52,6 +64,13 @@ def main():
     except:
         print(traceback.format_exc())
          
+=======
+    mqtt_client = mqtt.Client(client_id="monitor", reconnect_on_failure=True)
+    mqtt_client.connect(config['mqtt']['broker'], int(config['mqtt']['port']))
+    mqtt_client.on_connect = on_connect
+    mqtt_client.on_message = on_message
+    mqtt_client.loop_forever()
+>>>>>>> d891969 (minor changes)
 
 if __name__ == '__main__':
     main()
