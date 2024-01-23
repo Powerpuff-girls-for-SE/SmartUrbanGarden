@@ -34,10 +34,10 @@ def main():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    broker = '172.100.0.13'
-    port = 1883
-    client_id = 'managed_resource'
+    broker = config['mqtt']['broker']
+    port = int(config['mqtt']['port'])
 
+    client_id = 'managed_resource'
     client = connect_mqtt(client_id, broker, port)
 
     # GardenArea creation
