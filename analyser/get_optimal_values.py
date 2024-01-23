@@ -51,13 +51,39 @@ class MQTTSubscriber:
             client.loop_stop()
             client.disconnect()
 
+optimal_value_mappings = {
+    "Rose": {
+        "light": 2000,
+        "temperature": 20,
+        "humidity": 60,
+        "moisture": 50
+    },
+    "Basil": {
+        "light": 5000,
+        "temperature": 25,
+        "humidity": 70,
+        "moisture": 70
+    },
+    "Succulent": {
+        "light": 10000,
+        "temperature": 25,
+        "humidity": 40,
+        "moisture": 30
+    },
+    "FernOasis": {
+        "light": 1500,
+        "temperature": 22,
+        "humidity": 75,
+        "moisture": 60
+    },
+}
 
 def get_optimal_value(garden_area, sensor):
-    broker_address = config["mqtt"]["broker"]
-    topic = f"garden/{garden_area}/optimal_{sensor}"
-    subscriber = MQTTSubscriber(broker_address, topic)
-    payload = subscriber.subscribe_and_get_payload()
+    # broker_address = config["mqtt"]["broker"]
+    # topic = f"garden/{garden_area}/optimal_{sensor}"
+    # subscriber = MQTTSubscriber(broker_address, topic)
+    # payload = subscriber.subscribe_and_get_payload()
 
-    return payload
-
+    # return payload
+    return optimal_value_mappings[garden_area][sensor]
     

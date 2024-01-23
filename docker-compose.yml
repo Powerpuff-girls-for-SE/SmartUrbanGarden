@@ -83,6 +83,9 @@ services:
     networks:
       garden-net:
         ipv4_address: 172.100.0.15
+    depends_on:
+      - mosquitto
+      - influxdb
   
   mape_planner:
     container_name: garden_planner
@@ -105,6 +108,8 @@ services:
     networks:
       garden-net:
         ipv4_address: 172.100.0.17
+    depends_on:
+      - mosquitto
 
   managed_resources:
     container_name: garden_resources

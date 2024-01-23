@@ -14,7 +14,7 @@ def main():
     try:
         connection = db_access.DBAccess()
         garden_areas = connection.get_garden_areas()
-        used_sensors = config["conditions"]["SENSOR_NAMES"]
+        used_sensors = ["light", "temperature", "humidity", "moisture"]
         sensor_data = {}
 
         for garden_area in garden_areas:

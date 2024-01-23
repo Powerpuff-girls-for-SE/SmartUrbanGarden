@@ -30,7 +30,7 @@ class MQTTClient:
 
 client = MQTTClient(client_id='Executor')
 
-@app.route("/garden_area/sensor/action", methods=["GET"])
+@app.route("/<garden_area>/<sensor>/<action>", methods=["GET"])
 def run_actuator(garden_area, sensor, action):
     if sensor == 'temperature':
         client.publish(f'thermostat/{garden_area}/{action}', '')
