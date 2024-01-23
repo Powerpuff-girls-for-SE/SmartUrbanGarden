@@ -79,11 +79,5 @@ optimal_value_mappings = {
 }
 
 def get_optimal_value(garden_area, sensor):
-    # broker_address = config["mqtt"]["broker"]
-    # topic = f"garden/{garden_area}/optimal_{sensor}"
-    # subscriber = MQTTSubscriber(broker_address, topic)
-    # payload = subscriber.subscribe_and_get_payload()
-
-    # return payload
-    return optimal_value_mappings[garden_area][sensor]
+    return int(config[garden_area][sensor])
     
