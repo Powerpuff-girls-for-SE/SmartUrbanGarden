@@ -53,25 +53,25 @@ class MQTTSubscriber:
 
 optimal_value_mappings = {
     "Rose": {
-        "light": 2000,
+        "light": 290,
         "temperature": 20,
         "humidity": 60,
         "moisture": 50
     },
     "Basil": {
-        "light": 5000,
+        "light": 500,
         "temperature": 25,
         "humidity": 70,
         "moisture": 70
     },
     "Succulent": {
-        "light": 10000,
+        "light": 800,
         "temperature": 25,
         "humidity": 40,
         "moisture": 30
     },
     "FernOasis": {
-        "light": 1500,
+        "light": 300,
         "temperature": 22,
         "humidity": 75,
         "moisture": 60
