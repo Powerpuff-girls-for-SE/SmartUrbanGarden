@@ -4,6 +4,9 @@ This system operates on a processing unit which collect data from various sensor
 <img width="50%" alt="image" src="https://github.com/Powerpuff-girls-for-SE/SmartUrbanGarden/assets/46968591/e9a0b07e-55f3-4b60-8a23-e7d4e318bd82">
 
 ## Execution Steps
+1. Download Docker Desktop [link](https://www.docker.com/products/docker-desktop/)
+2. Start Docker Desktop
+3. Clone this GitHub project and run the following commands:
 ```bash
 docker-compose build
 docker-compose up
@@ -30,6 +33,16 @@ docker-compose up
 
 ## System Architecture
 <img width="50%" alt="image" src="https://github.com/Powerpuff-girls-for-SE/SmartUrbanGarden/assets/46968591/3013f515-5316-4bb6-b5f6-610dc04c3cda">
+
+## MAPE-K Framework
+| Component | Description |
+| --- | --- |
+| Monitor | Monitoring is achieved through various sensors that measure temperature, humidity, light levels, and soil moisture. These sensors continuously gather data about the environmental conditions affecting the plant. |
+| Analyser | Analysis involves interpreting the data collected during monitoring. The system analyzes the data from the sensors to determine the current state of the plant's environment. For instance, it assesses whether the soil is too dry or if the ambient light is insufficient. |
+| Planner | Planning involves deciding what actions to take based on the analysis. In our smart garden, planning occurs when the system decides whether to water the plant or turn on the light. This decision is based on optimal values for each sensor which are set as part of the system’s logic. |
+| Executor | Execution is the act of carrying out the planned actions. In our project, this is done through actuators like the water pump and the Smart Bulb. When the system decides that the plant needs water, it activates the pump; similarly, it turns on the bulb when needed. This ensures that the plant’s environment is always optimal. |
+| Knowledge | This aspect involves the information and rules that the system uses to make decisions. Smart Urban Garden uses specific knowledge like the optimal moisture level, light intensity requirements, optimal temperatures for optimal growth of the specific plant. A database with the above thresholds will be created for a variety of plants and shared among the MAPE components. |
+
 
 
 
