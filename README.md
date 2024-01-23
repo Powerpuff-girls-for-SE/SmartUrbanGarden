@@ -42,6 +42,5 @@ docker-compose up
 | Executor | Execution is the act of carrying out the planned actions. In our project, this is done through actuators like the water pump and the Smart Bulb. When the system decides that the plant needs water, it activates the pump; similarly, it turns on the bulb when needed. This ensures that the plant’s environment is always optimal. |
 | Knowledge | This aspect involves the information and rules that the system uses to make decisions. Smart Urban Garden uses specific knowledge like the optimal moisture level, light intensity requirements, optimal temperatures for optimal growth of the specific plant. A database with the above thresholds will be created for a variety of plants and shared among the MAPE components. |
 
-
-
-
+## Steps to set up Telegram bot
+[Telegram Bot Setup Steps](telegram_bot_setup_steps.pdf)

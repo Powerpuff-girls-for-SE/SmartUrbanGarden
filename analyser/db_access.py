@@ -10,15 +10,12 @@ config.read('config.ini')
 
 class DBAccess:
     def __init__(self):
-        # self.organization = config["influxdb"]["ORG"]
-        # self.bucket = config["influxdb"]["BUCKET_NAME"]
-        # self.token = config["influxdb"]["TOKEN"]
-        # self.influxdb_url = config["influxdb"]["URL"]
-        self.organization = "urban_org"
-        self.bucket = "urban_garden"
-        self.token = "urban_token"
-        self.influxdb_url = "172.100.0.11:8086"
-        self.url = f"http://172.100.0.11:8086/"
+        self.organization = config["influxdb"]["ORG"]
+        self.bucket = config["influxdb"]["BUCKET_NAME"]
+        self.token = config["influxdb"]["TOKEN"]
+        influxdb_url = config['influxdb']['URL']
+        
+        self.url = f"http://{influxdb_url}/"
         self.connect_to_database()
 
     def connect_to_database(self):
