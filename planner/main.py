@@ -36,33 +36,27 @@ def check_measurements():
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
 
                 elif measurements[area][measurement] == "Humidity low":
-                    alarm_url = f'{url}/{area}/high'
-                    x = requests.get(alarm_url)
+                    x = requests.get(f'{new_url}/high')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
 
                 elif measurements[area][measurement] == "Humidity high":
-                    alarm_url = f'{url}/{area}/low'
-                    x = requests.get(alarm_url)
+                    x = requests.get(f'{new_url}/low')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
 
                 elif measurements[area][measurement] == "Humidity optimal":
-                    alarm_url = f'{url}/{area}/off'
-                    x = requests.get(alarm_url)
+                    x = requests.get(f'{new_url}/off')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
 
                 elif measurements[area][measurement] == "Light low":
-                    alarm_url = f'{url}/{area}/high'
-                    x = requests.get(alarm_url)
+                    x = requests.get(f'{new_url}/high')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
 
                 elif measurements[area][measurement] == "Light high":
-                    alarm_url = f'{url}/{area}/low'
-                    x = requests.get(alarm_url)
+                    x = requests.get(f'{new_url}/low')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
 
                 elif measurements[area][measurement] == "Light optimal":
-                    alarm_url = f'{url}/{area}/off'
-                    x = requests.get(alarm_url)
+                    x = requests.get(f'{new_url}/off')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
 
                 elif measurements[area][measurement] == "Moisture low":
