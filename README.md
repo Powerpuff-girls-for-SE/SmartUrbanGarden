@@ -48,3 +48,7 @@ docker-compose up
 
 ## Steps to set up Telegram bot
 [Telegram Bot Setup Steps](telegram_bot_setup_steps.pdf)
+
+## Grafana Dashboard
+<img width="1418" alt="Screenshot 2024-01-23 at 2 24 19 PM" src="https://github.com/Powerpuff-girls-for-SE/SmartUrbanGarden/assets/46968591/de69515a-cb2d-4c32-9f3b-89213080b7c8">
+
