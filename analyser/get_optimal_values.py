@@ -50,33 +50,7 @@ class MQTTSubscriber:
             # Disconnect from the MQTT broker
             client.loop_stop()
             client.disconnect()
-
-optimal_value_mappings = {
-    "Rose": {
-        "light": 290,
-        "temperature": 20,
-        "humidity": 60,
-        "moisture": 50
-    },
-    "Basil": {
-        "light": 500,
-        "temperature": 25,
-        "humidity": 70,
-        "moisture": 70
-    },
-    "Succulent": {
-        "light": 800,
-        "temperature": 25,
-        "humidity": 40,
-        "moisture": 30
-    },
-    "FernOasis": {
-        "light": 300,
-        "temperature": 22,
-        "humidity": 75,
-        "moisture": 60
-    },
-}
+            
 
 def get_optimal_value(garden_area, sensor):
     return int(config[garden_area][sensor])
