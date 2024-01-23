@@ -33,6 +33,10 @@ docker-compose up
 ## System Architecture
 <img width="50%" alt="image" src="https://github.com/Powerpuff-girls-for-SE/SmartUrbanGarden/assets/46968591/3013f515-5316-4bb6-b5f6-610dc04c3cda">
 
+## Sequence Diagram
+![sequence diagram drawio](https://github.com/Powerpuff-girls-for-SE/SmartUrbanGarden/assets/46968591/ef7dfd05-28fb-4bc6-8322-0b16a986b5e8)
+
+
 ## MAPE-K Framework
 | Component | Description |
 | --- | --- |
