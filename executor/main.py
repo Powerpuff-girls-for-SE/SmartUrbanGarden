@@ -23,7 +23,7 @@ class MQTTClient:
         self.client.connect(config["mqtt"]["broker"])
 
     def on_connect(client, userdata, flags, rc):
-        print('Executor connected to MQTT')
+        print('Executor connected to MQTT ')
 
     def publish(self, topic, msg):
         self.client.publish(topic, msg)
