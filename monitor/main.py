@@ -1,7 +1,6 @@
 from paho.mqtt import client as mqtt_client
 import influxdb_client
 import configparser
-import traceback
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 config = configparser.ConfigParser()
@@ -47,15 +46,15 @@ def subscribe(client, topic):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         write_to_influxdb(str(msg.topic), msg.payload)
 
-    client.subscribe(topic)
+    client.subscribe(topic + "/#")
     client.on_message = on_message
 
 def main():
-    broker = '172.100.0.13'
-    port = 1883
-    topic = "garden/#"
+    broker = config['mqtt']['broker']
+    port = int(config['mqtt']['port'])
+    topic = config['mqtt']['topic']
+
     client_id = "monitor"
-    # Generate a Client ID with the subscribe prefix.
     client = connect_mqtt(client_id, broker, port)
     subscribe(client, topic)
     client.loop_forever()

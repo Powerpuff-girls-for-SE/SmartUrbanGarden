@@ -15,7 +15,7 @@ app.secret_key = config.get('flask', 'SECRET_KEY')
 @app.route("/planner/check_measurements", methods=["POST"])
 def check_measurements():
     measurements = request.json
-    url = 'http://172.100.0.17:5006'
+    url = config['executor']['URL']
 
     try:
         for area in measurements:
@@ -80,4 +80,4 @@ def check_measurements():
     
 
 if __name__ == "__main__":
-    app.run(debug=True, host='172.100.0.16', port=5007)
+    app.run(debug=True, host=config['planner']['host'], port=int(config['planner']['port']))
