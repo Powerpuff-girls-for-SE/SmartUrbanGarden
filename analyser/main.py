@@ -35,38 +35,38 @@ def main():
 def check_temperature_value(garden_area, temperature):
     optimal_temperature = get_optimal_value(garden_area, "temperature")
     if temperature < optimal_temperature - 5:
-        return "Temperature low"
+        return config["sensor"]["LOW"]
     elif temperature > optimal_temperature + 5:
-        return "Temperature high"
+        return config["sensor"]["HIGH"]
     else:
-        return "Temperature optimal"
+        return config["sensor"]["OPTIMAL"]
 
 def check_humidity_value(garden_area, humidity):
     optimal_humidity = get_optimal_value(garden_area, "humidity")
     if humidity < optimal_humidity - 5:
-        return "Humidity low"
+        return config["sensor"]["LOW"]
     elif humidity > optimal_humidity + 5:
-        return "Humidity high"
+        return config["sensor"]["HIGH"]
     else:
-        return "Humidity optimal"
+        return config["sensor"]["OPTIMAL"]
     
 def check_light_value(garden_area, light):
     optimal_light = get_optimal_value(garden_area, "light")
     if light < optimal_light - 5:
-        return "Light low"
+        return config["sensor"]["LOW"]
     elif light > optimal_light + 5:
-        return "Light high"
+        return config["sensor"]["HIGH"]
     else:
-        return "Light optimal"
+        return config["sensor"]["OPTIMAL"]
     
 def check_moisture_value(garden_area, moisture):
     optimal_moisture = get_optimal_value(garden_area, "moisture")
     if moisture < optimal_moisture - 5:
-        return "Moisture low"
+        return config["sensor"]["LOW"]
     elif moisture > optimal_moisture + 5:
-        return "Moisture high"
+        return config["sensor"]["HIGH"]
     else:
-        return "Moisture optimal"
+        return config["sensor"]["OPTIMAL"]
     
 def check_sensor_values(sensor_data):
     readings = {}

@@ -2,6 +2,9 @@ from threading import Thread
 import paho.mqtt.client as mqtt
 import configparser
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+
 class Actuator:
     def __init__(self, gardenArea, actuatorType):
         self.gardenArea = gardenArea
@@ -32,12 +35,7 @@ class SmartBulb(Actuator):
     def __init__(self, gardenArea):
         super().__init__(gardenArea, "smartBulb")
         self.gardenArea = gardenArea
-        self.light_level = "off"
-        self.light_levels_mappings = {
-            "off": 0,
-            "low": 200,
-            "high": 1000
-        }
+        self.light_level = config["SmartBulb"]["initial_state"]
         self.client.on_message = self.on_message
 
     def on_message(self, client, userdata, msg):
@@ -49,7 +47,7 @@ class SmartBulb(Actuator):
         print(msg.topic + " " + str(msg.payload))
         if garden_area == self.areaName:
             self.set_light_level(light_level)
-            self.gardenArea.light = self.light_levels_mappings[light_level]
+            self.gardenArea.light = config["SmartBulb"][light_level]
 
     def set_light_level(self, light_level):
         self.light_level = light_level
@@ -57,7 +55,7 @@ class SmartBulb(Actuator):
 class Thermostat(Actuator):
     def __init__(self, gardenArea):
         super().__init__(gardenArea, "thermostat")
-        self.thermostat_state = "off"
+        self.thermostat_state = config["Thermostat"]["initial_state"]
         self.client.on_message = self.on_message
 
     def on_message(self, client, userdata, msg):
@@ -85,7 +83,7 @@ class Thermostat(Actuator):
 class WaterPump(Actuator):
     def __init__(self, gardenArea):
         super().__init__(gardenArea, "water_pump")
-        self.water_pump_state = "off"
+        self.water_pump_state = config["WaterPump"]["initial_state"]
         self.client.on_message = self.on_message
 
     def on_message(self, client, userdata, msg):
@@ -114,12 +112,7 @@ class WaterPump(Actuator):
 class Humidifier(Actuator):
     def __init__(self, gardenArea):
         super().__init__(gardenArea, "humidifier")
-        self.humidifier_state = "off"
-        self.light_levels_mappings = {
-            "off": 0,
-            "low": 20,
-            "high": 90
-        }
+        self.humidifier_state = config["Humidifier"]["initial_state"]
         self.client.on_message = self.on_message
 
     def on_message(self, client, userdata, msg):
@@ -131,7 +124,7 @@ class Humidifier(Actuator):
         print(msg.topic + " " + str(msg.payload))
         if garden_area == self.areaName:
             self.set_humidifier_level()
-            self.gardenArea.humidity = self.light_levels_mappings[humidifier_level]
+            self.gardenArea.humidity = config["Humidifier"][humidifier_level]
   
     def set_humidifier_level(self, humidifier_level):
         self.humidifier_level = humidifier_level

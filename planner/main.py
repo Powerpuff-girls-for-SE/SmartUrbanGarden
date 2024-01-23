@@ -23,51 +23,51 @@ def check_measurements():
                 print(f'\nArea: {area}, Measurement: {measurement}, Condition: {measurements[area][measurement]}')
                 new_url = f'{url}/{area}/{measurement}'
 
-                if measurements[area][measurement] == "Temperature low":
+                if measurements[area][measurement] == config["sensor"]["LOW"]:
                     x = requests.get(f'{new_url}/on')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
 
-                elif measurements[area][measurement] == "Temperature high":
-                    x = requests.get(f'{new_url}/on')
+                elif measurements[area][measurement] == config["sensor"]["HIGH"]:
+                    x = requests.get(f'{new_url}/off')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
 
-                elif measurements[area][measurement] == "Temperature optimal":
+                elif measurements[area][measurement] == config["sensor"]["OPTIMAL"]:
                     x = requests.get(f'{new_url}/off')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
 
-                elif measurements[area][measurement] == "Humidity low":
+                elif measurements[area][measurement] == config["sensor"]["LOW"]:
                     x = requests.get(f'{new_url}/high')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
 
-                elif measurements[area][measurement] == "Humidity high":
+                elif measurements[area][measurement] == config["sensor"]["HIGH"]:
                     x = requests.get(f'{new_url}/low')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
 
-                elif measurements[area][measurement] == "Humidity optimal":
+                elif measurements[area][measurement] == config["sensor"]["OPTIMAL"]:
                     x = requests.get(f'{new_url}/off')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
 
-                elif measurements[area][measurement] == "Light low":
+                elif measurements[area][measurement] == config["sensor"]["LOW"]:
                     x = requests.get(f'{new_url}/high')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
 
-                elif measurements[area][measurement] == "Light high":
+                elif measurements[area][measurement] == config["sensor"]["HIGH"]:
                     x = requests.get(f'{new_url}/low')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
 
-                elif measurements[area][measurement] == "Light optimal":
+                elif measurements[area][measurement] == config["sensor"]["OPTIMAL"]:
                     x = requests.get(f'{new_url}/off')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
 
-                elif measurements[area][measurement] == "Moisture low":
+                elif measurements[area][measurement] == config["sensor"]["LOW"]:
                     x = requests.get(f'{new_url}/on')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should increase.')
 
-                elif measurements[area][measurement] == "Moisture high":
+                elif measurements[area][measurement] == config["sensor"]["HIGH"]:
                     x = requests.get(f'{new_url}/on')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} should decrease.')
 
-                elif measurements[area][measurement] == "Moisture optimal":
+                elif measurements[area][measurement] == config["sensor"]["OPTIMAL"]:
                     x = requests.get(f'{new_url}/off')
                     print(f'{measurement} measurement: {measurements[area][measurement]}. {measurement} is optimal.')
 
