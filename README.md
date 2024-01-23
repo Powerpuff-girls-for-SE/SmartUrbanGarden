@@ -33,6 +33,10 @@ docker-compose up
 ## System Architecture
 <img width="50%" alt="image" src="https://github.com/Powerpuff-girls-for-SE/SmartUrbanGarden/assets/46968591/3013f515-5316-4bb6-b5f6-610dc04c3cda">
 
+## Sequence Diagram
+![sequence diagram drawio](https://github.com/Powerpuff-girls-for-SE/SmartUrbanGarden/assets/46968591/ef7dfd05-28fb-4bc6-8322-0b16a986b5e8)
+
+
 ## MAPE-K Framework
 | Component | Description |
 | --- | --- |
@@ -42,6 +46,5 @@ docker-compose up
 | Executor | Execution is the act of carrying out the planned actions. In our project, this is done through actuators like the water pump and the Smart Bulb. When the system decides that the plant needs water, it activates the pump; similarly, it turns on the bulb when needed. This ensures that the plant’s environment is always optimal. |
 | Knowledge | This aspect involves the information and rules that the system uses to make decisions. Smart Urban Garden uses specific knowledge like the optimal moisture level, light intensity requirements, optimal temperatures for optimal growth of the specific plant. A database with the above thresholds will be created for a variety of plants and shared among the MAPE components. |
 
-
-
-
+## Steps to set up Telegram bot
+[Telegram Bot Setup Steps](telegram_bot_setup_steps.pdf)

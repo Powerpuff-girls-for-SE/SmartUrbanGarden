@@ -34,27 +34,23 @@ def main():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    broker = '172.100.0.13'
-    port = 1883
-    client_id = 'managed_resource'
+    broker = config['mqtt']['broker']
+    port = int(config['mqtt']['port'])
 
+    client_id = 'managed_resource'
     client = connect_mqtt(client_id, broker, port)
 
     # GardenArea creation
     areas = []
 
-    area1 = GardenArea(areaName="Rose",  light=290, temperature=20, humidity=60, moisture=50)
+    area1 = GardenArea(areaName=config["Rose"]["area_name"],  light=config["Rose"]["light"], temperature=config["Rose"]["temperature"], humidity=config["Rose"]["humidity"], moisture=config["Rose"]["moisture"])
     areas.append(area1)
-    publish_area_optimal_values(client, "Rose", 290, 20, 60, 50)
-    area2 = GardenArea(areaName="Basil", light=500, temperature=25, humidity=70, moisture=70)
+    area2 = GardenArea(areaName=config["Basil"]["area_name"],  light=config["Basil"]["light"], temperature=config["Basil"]["temperature"], humidity=config["Basil"]["humidity"], moisture=config["Basil"]["moisture"])
     areas.append(area2)
-    publish_area_optimal_values(client, "Basil", 500, 25, 70, 70)
-    area3 = GardenArea(areaName="Succulent",  light=800, temperature=25, humidity=40, moisture=30)
+    area3 = GardenArea(areaName=config["Succulent"]["area_name"],  light=config["Succulent"]["light"], temperature=config["Succulent"]["temperature"], humidity=config["Succulent"]["humidity"], moisture=config["Succulent"]["moisture"])
     areas.append(area3)
-    publish_area_optimal_values(client, "Succulent", 800, 25, 40, 30)
-    area4 = GardenArea(areaName="FernOasis", light=300, temperature=22, humidity=75, moisture=60)
+    area4 = GardenArea(areaName=config["FernOasis"]["area_name"],  light=config["FernOasis"]["light"], temperature=config["FernOasis"]["temperature"], humidity=config["FernOasis"]["humidity"], moisture=config["FernOasis"]["moisture"])
     areas.append(area4)
-    publish_area_optimal_values(client, "FernOasis", 300, 22, 75, 60)
 
     while True:
         for area in areas:

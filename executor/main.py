@@ -23,7 +23,7 @@ class MQTTClient:
         self.client.connect(config["mqtt"]["broker"])
 
     def on_connect(client, userdata, flags, rc):
-        print('Executor connected to MQTT')
+        print('Executor connected to MQTT ')
 
     def publish(self, topic, msg):
         self.client.publish(topic, msg)
@@ -46,4 +46,4 @@ def run_actuator(garden_area, sensor, action):
     return resp
 
 if __name__ == "__main__":
-    app.run(debug=True, host="172.100.0.17", port=5006)
+    app.run(debug=True, host=config['executor']['host'], port=int(config['executor']['port']))
