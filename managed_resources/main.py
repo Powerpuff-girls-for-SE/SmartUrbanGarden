@@ -43,18 +43,18 @@ def main():
     # GardenArea creation
     areas = []
 
-    area1 = GardenArea(areaName="Rose",  light=2000, temperature=20, humidity=60, moisture=50)
+    area1 = GardenArea(areaName="Rose",  light=290, temperature=20, humidity=60, moisture=50)
     areas.append(area1)
-    publish_area_optimal_values(client, "Rose", 2000, 20, 60, 50)
-    area2 = GardenArea(areaName="Basil", light=5000, temperature=25, humidity=70, moisture=70)
+    publish_area_optimal_values(client, "Rose", 290, 20, 60, 50)
+    area2 = GardenArea(areaName="Basil", light=500, temperature=25, humidity=70, moisture=70)
     areas.append(area2)
-    publish_area_optimal_values(client, "Basil", 5000, 25, 70, 70)
-    area3 = GardenArea(areaName="Succulent",  light=10000, temperature=25, humidity=40, moisture=30)
+    publish_area_optimal_values(client, "Basil", 500, 25, 70, 70)
+    area3 = GardenArea(areaName="Succulent",  light=800, temperature=25, humidity=40, moisture=30)
     areas.append(area3)
-    publish_area_optimal_values(client, "Succulent", 10000, 25, 40, 30)
-    area4 = GardenArea(areaName="FernOasis", light=1500, temperature=22, humidity=75, moisture=60)
+    publish_area_optimal_values(client, "Succulent", 800, 25, 40, 30)
+    area4 = GardenArea(areaName="FernOasis", light=300, temperature=22, humidity=75, moisture=60)
     areas.append(area4)
-    publish_area_optimal_values(client, "FernOasis", 1500, 22, 75, 60)
+    publish_area_optimal_values(client, "FernOasis", 300, 22, 75, 60)
 
     while True:
         for area in areas:
